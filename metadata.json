@@ -2,7 +2,7 @@
     "name" : "Autohide Volume",
     "description" : "Autohide volume indicator when muted",
     "shell-version" : [
-        "41"
+        "41","42"
     ],
     "url" : "http://github.com/t184256/gnome-shell-extension-autohide-volume",
     "uuid" : "autohide-volume@unboiled.info",
