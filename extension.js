@@ -17,15 +17,14 @@ export default class AutohideVolume {
 	h_oc2 = null;
 
 	enable() {
-		this.late_cb = GLib.timeout_add(
+		this.late_cb = GLib.idle_add(
 			GLib.PRIORITY_DEFAULT_IDLE,
-			50,
 			(() => {
 				let qs = panel.statusArea.quickSettings;
 				if (!qs._volumeOutput)
 					return GLib.SOURCE_CONTINUE;
 				this.late_enable();
-					return GLib.SOURCE_REMOVE;
+				return GLib.SOURCE_REMOVE;
 			}).bind(this)
 		);
 	}
