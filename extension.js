@@ -6,24 +6,28 @@ import {panel} from 'resource:///org/gnome/shell/ui/main.js';
 
 
 export default class AutohideVolume {
-	h_io1;
-	h_ic1;
-	h_ic2;
-	h_ic3;
-	h_ic4;
-	h_oo1;
-	h_oc1;
-	h_oc2;
-
-	init() {}
+	late_cb = null;
+	h_io1 = null;
+	h_ic1 = null;
+	h_ic2 = null;
+	h_ic3 = null;
+	h_ic4 = null;
+	h_oo1 = null;
+	h_oc1 = null;
+	h_oc2 = null;
 
 	enable() {
-		GLib.idle_add(GLib.PRIORITY_DEFAULT, (() => {
-		    if (!panel.statusArea.quickSettings._volumeOutput)
-			return GLib.SOURCE_CONTINUE;
-		    this.late_enable();
-		    return GLib.SOURCE_REMOVE;
-		}).bind(this));
+		this.late_cb = GLib.timeout_add(
+			GLib.PRIORITY_DEFAULT_IDLE,
+			50,
+			(() => {
+				let qs = panel.statusArea.quickSettings;
+				if (!qs._volumeOutput)
+					return GLib.SOURCE_CONTINUE;
+				this.late_enable();
+					return GLib.SOURCE_REMOVE;
+			}).bind(this)
+		);
 	}
 
 	late_enable() {
@@ -40,19 +44,16 @@ export default class AutohideVolume {
 			AutohideVolume._autoupdate_visibility
 		);
 		this.h_ic3 = input._control.connect(
-			'stream-added',
-			AutohideVolume._autoupdate_visibility
+			'stream-added', AutohideVolume._autoupdate_visibility
 		);
 		this.h_ic4 = input._control.connect(
-			'stream-removed',
-			AutohideVolume._autoupdate_visibility
+			'stream-removed', AutohideVolume._autoupdate_visibility
 		);
 		this.h_oo1 = output._output.connect(
 			'stream-updated', AutohideVolume._autoupdate_visibility
 		);
 		this.h_oc1 = output._control.connect(
-			'state-changed',
-			AutohideVolume._autoupdate_visibility
+			'state-changed', AutohideVolume._autoupdate_visibility
 		);
 		this.h_oc2 = output._control.connect(
 			'active-output-update',
@@ -62,16 +63,44 @@ export default class AutohideVolume {
 	}
 
 	disable() {
+		if (this.late_cb) {
+			GLib.Source.remove(this.late_cb);
+			this.late_cb = null;
+		}
 		let output = panel.statusArea.quickSettings._volumeOutput;
 		let input = panel.statusArea.quickSettings._volumeInput;
-		if (this.h_ii1) input._input.disconnect(this.h_ii1);
-		if (this.h_ic1) input._control.disconnect(this.h_ic1);
-		if (this.h_ic2) input._control.disconnect(this.h_ic2);
-		if (this.h_ic3) input._control.disconnect(this.h_ic3);
-		if (this.h_ic4) input._control.disconnect(this.h_ic4);
-		if (this.h_oo1) output._output.disconnect(this.h_ii1);
-		if (this.h_oc1) output._control.disconnect(this.h_ic1);
-		if (this.h_oc2) output._control.disconnect(this.h_ic2);
+		if (this.h_ii1) {
+			input._input.disconnect(this.h_ii1);
+			this.h_ii1 = null;
+		}
+		if (this.h_ic1) {
+			input._control.disconnect(this.h_ic1);
+			this.h_ic1 = null;
+		}
+		if (this.h_ic2) {
+			input._control.disconnect(this.h_ic2);
+			this.h_ic2 = null;
+		}
+		if (this.h_ic3) {
+			input._control.disconnect(this.h_ic3);
+			this.h_ic3 = null;
+		}
+		if (this.h_ic4) {
+			input._control.disconnect(this.h_ic4);
+			this.h_ic4 = null;
+		}
+		if (this.h_oo1) {
+			output._output.disconnect(this.h_ii1);
+			this.h_oo1 = null;
+		}
+		if (this.h_oc1) {
+			output._control.disconnect(this.h_ic1);
+			this.h_oc1 = null;
+		}
+		if (this.h_oc2) {
+			output._control.disconnect(this.h_ic2);
+			this.h_oc2 = null;
+		}
 		AutohideVolume._set_visibility(true);
 	}
 
