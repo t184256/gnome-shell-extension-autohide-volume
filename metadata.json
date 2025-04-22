@@ -4,7 +4,8 @@
     "shell-version" : [
         "45",
         "46",
-        "47"
+        "47",
+        "48"
     ],
     "url" : "http://github.com/t184256/gnome-shell-extension-autohide-volume",
     "uuid" : "autohide-volume@unboiled.info"
