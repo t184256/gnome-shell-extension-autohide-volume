@@ -1,1 +1,4 @@
+nix build -L './tests#test'
 gnome-extensions pack . --force --extra-source=LICENSE --extra-source=README.md
+diff <(unzip -Z1 autohide-volume@unboiled.info.shell-extension.zip | sort) \
+     <(printf '%s\n' LICENSE README.md extension.js metadata.json)
