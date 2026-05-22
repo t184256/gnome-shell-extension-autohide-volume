@@ -5,7 +5,7 @@ diff <(unzip -Z1 autohide-volume@unboiled.info.shell-extension.zip | sort) \
 
 # in case of screenshots changing
 nix build -L './tests#screenshots'
-cat result/initial_corner.png > tests/reference/initial.png
+cat result/boosted_corner.png > tests/reference/boosted.png
 cat result/unmuted_corner.png > tests/reference/unmuted.png
 cat result/muted_corner.png > tests/reference/muted.png
 git diff --exit-code --stat HEAD tests/reference

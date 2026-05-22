@@ -1,7 +1,7 @@
 { description = "Autohide volume indicator when muted";
 
   inputs.nixpkgs.url =
-    "github:NixOS/nixpkgs/8e13ad6266acf92aa1c61d006f51a30c53d43851";
+    "github:NixOS/nixpkgs/master";
 
   outputs = { self, nixpkgs, ... }:
     let system = "x86_64-linux";
@@ -104,9 +104,11 @@
                   machine.wait_for_unit('default.target', 'user')
                   wait_for_desktop()
 
-              with subtest('Initial'):
-                  machine.screenshot('initial')
-                  handle_reference('initial')
+              with subtest('Boosted'):
+                  machine.send_key('f2')
+                  time.sleep(.5 * TIMEOUT_MULTIPLIER)
+                  machine.screenshot('boosted')
+                  handle_reference('boosted')
 
               with subtest('Muted'):
                   for _ in range(20):
