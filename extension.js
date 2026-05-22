@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import GLib from 'gi://GLib';
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import {panel} from 'resource:///org/gnome/shell/ui/main.js';
 
 
-export default class AutohideVolume {
+export default class AutohideVolume extends Extension {
 	late_cb = null;
 	h_ii1 = null;
 	h_ic1 = null;
@@ -15,6 +16,10 @@ export default class AutohideVolume {
 	h_oo1 = null;
 	h_oc1 = null;
 	h_oc2 = null;
+
+	constructor(metadata) {
+		super(metadata);
+	}
 
 	enable() {
 		this.late_cb = GLib.idle_add(
