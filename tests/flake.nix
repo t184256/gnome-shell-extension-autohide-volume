@@ -7,6 +7,12 @@
     let system = "x86_64-linux";
         pkgs = import nixpkgs { inherit system; };
 
+        meta = builtins.fromJSON (builtins.readFile ../metadata.json);
+        maxShellVersion = nixpkgs.lib.last meta.shell-version;
+        nixpkgsShellVersion = (builtins.head
+          (nixpkgs.lib.splitString "." pkgs.gnome-shell.version)
+        );
+
         extension = pkgs.stdenv.mkDerivation {
           pname = "gnome-shell-extension-autohide-volume";
           version = "unstable";
@@ -20,6 +26,7 @@
         };
 
         makeTest = generateMode:
+          assert nixpkgsShellVersion == maxShellVersion;
           let timeoutMultiplier = 1;  # Bump for slower CI machines
           in nixpkgs.lib.nixos.runTest {
             name = "autohide-volume${if generateMode then "-generate" else ""}";
