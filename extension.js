@@ -7,7 +7,7 @@ import {panel} from 'resource:///org/gnome/shell/ui/main.js';
 
 export default class AutohideVolume {
 	late_cb = null;
-	h_io1 = null;
+	h_ii1 = null;
 	h_ic1 = null;
 	h_ic2 = null;
 	h_ic3 = null;
@@ -89,15 +89,15 @@ export default class AutohideVolume {
 			this.h_ic4 = null;
 		}
 		if (this.h_oo1) {
-			output._output.disconnect(this.h_ii1);
+			output._output.disconnect(this.h_oo1);
 			this.h_oo1 = null;
 		}
 		if (this.h_oc1) {
-			output._control.disconnect(this.h_ic1);
+			output._control.disconnect(this.h_oc1);
 			this.h_oc1 = null;
 		}
 		if (this.h_oc2) {
-			output._control.disconnect(this.h_ic2);
+			output._control.disconnect(this.h_oc2);
 			this.h_oc2 = null;
 		}
 		AutohideVolume._set_visibility(true);
