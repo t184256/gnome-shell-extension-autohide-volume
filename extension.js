@@ -71,39 +71,48 @@ export default class AutohideVolume extends Extension {
 			GLib.Source.remove(this.late_cb);
 			this.late_cb = null;
 		}
-		let output = panel.statusArea.quickSettings._volumeOutput;
-		let input = panel.statusArea.quickSettings._volumeInput;
-		if (this.h_ii1) {
-			input._input.disconnect(this.h_ii1);
-			this.h_ii1 = null;
+
+		let qs = panel.statusArea.quickSettings;
+		if (!qs)
+			return;
+
+		let input = qs._volumeInput;
+		if (input) {
+			if (this.h_ii1) {
+				input._input.disconnect(this.h_ii1);
+				this.h_ii1 = null;
+			}
+			if (this.h_ic1) {
+				input._control.disconnect(this.h_ic1);
+				this.h_ic1 = null;
+			}
+			if (this.h_ic2) {
+				input._control.disconnect(this.h_ic2);
+				this.h_ic2 = null;
+			}
+			if (this.h_ic3) {
+				input._control.disconnect(this.h_ic3);
+				this.h_ic3 = null;
+			}
+			if (this.h_ic4) {
+				input._control.disconnect(this.h_ic4);
+				this.h_ic4 = null;
+			}
 		}
-		if (this.h_ic1) {
-			input._control.disconnect(this.h_ic1);
-			this.h_ic1 = null;
-		}
-		if (this.h_ic2) {
-			input._control.disconnect(this.h_ic2);
-			this.h_ic2 = null;
-		}
-		if (this.h_ic3) {
-			input._control.disconnect(this.h_ic3);
-			this.h_ic3 = null;
-		}
-		if (this.h_ic4) {
-			input._control.disconnect(this.h_ic4);
-			this.h_ic4 = null;
-		}
-		if (this.h_oo1) {
-			output._output.disconnect(this.h_oo1);
-			this.h_oo1 = null;
-		}
-		if (this.h_oc1) {
-			output._control.disconnect(this.h_oc1);
-			this.h_oc1 = null;
-		}
-		if (this.h_oc2) {
-			output._control.disconnect(this.h_oc2);
-			this.h_oc2 = null;
+		let output = qs._volumeOutput;
+		if (output) {
+			if (this.h_oo1) {
+				output._output.disconnect(this.h_oo1);
+				this.h_oo1 = null;
+			}
+			if (this.h_oc1) {
+				output._control.disconnect(this.h_oc1);
+				this.h_oc1 = null;
+			}
+			if (this.h_oc2) {
+				output._control.disconnect(this.h_oc2);
+				this.h_oc2 = null;
+			}
 		}
 		AutohideVolume._set_visibility(true);
 	}
