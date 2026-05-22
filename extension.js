@@ -25,7 +25,7 @@ export default class AutohideVolume extends Extension {
 		this.late_cb = GLib.idle_add(
 			GLib.PRIORITY_DEFAULT_IDLE,
 			(() => {
-				let qs = panel.statusArea.quickSettings;
+				const qs = panel.statusArea.quickSettings;
 				if (!qs._volumeOutput)
 					return GLib.SOURCE_CONTINUE;
 				this.late_enable();
@@ -35,8 +35,8 @@ export default class AutohideVolume extends Extension {
 	}
 
 	late_enable() {
-		let input = panel.statusArea.quickSettings._volumeInput;
-		let output = panel.statusArea.quickSettings._volumeOutput;
+		const input = panel.statusArea.quickSettings._volumeInput;
+		const output = panel.statusArea.quickSettings._volumeOutput;
 		this.h_ii1 = input._input.connect(
 			'stream-updated', AutohideVolume._autoupdate_visibility
 		);
@@ -72,11 +72,11 @@ export default class AutohideVolume extends Extension {
 			this.late_cb = null;
 		}
 
-		let qs = panel.statusArea.quickSettings;
+		const qs = panel.statusArea.quickSettings;
 		if (!qs)
 			return;
 
-		let input = qs._volumeInput;
+		const input = qs._volumeInput;
 		if (input) {
 			if (this.h_ii1) {
 				input._input.disconnect(this.h_ii1);
@@ -99,7 +99,7 @@ export default class AutohideVolume extends Extension {
 				this.h_ic4 = null;
 			}
 		}
-		let output = qs._volumeOutput;
+		const output = qs._volumeOutput;
 		if (output) {
 			if (this.h_oo1) {
 				output._output.disconnect(this.h_oo1);
@@ -118,7 +118,7 @@ export default class AutohideVolume extends Extension {
 	}
 
 	static _set_visibility(show) {
-		let output = panel.statusArea.quickSettings._volumeOutput;
+		const output = panel.statusArea.quickSettings._volumeOutput;
 		if (show) {
 			output.show();
 		} else {
@@ -127,9 +127,9 @@ export default class AutohideVolume extends Extension {
 	}
 
 	static _autoupdate_visibility() {
-		let output = panel.statusArea.quickSettings._volumeOutput;
-		let input = panel.statusArea.quickSettings._volumeInput;
-		let input_visible = input.visible;
+		const output = panel.statusArea.quickSettings._volumeOutput;
+		const input = panel.statusArea.quickSettings._volumeInput;
+		const input_visible = input.visible;
 
 		let output_muted = false;
 		try {
